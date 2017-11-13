@@ -2,28 +2,27 @@
 #include <fstream>
 #include "ReadPPI.h"
 
-using namespace std;
 
-ReadPPI::ReadPPI(string netname, int num_nets)
+ReadPPI::ReadPPI(std::string netname, int num_nets)
 {
 	m_iNumNets = num_nets;
 	igraph_t *m_igraph = new igraph_t[m_iNumNets];
-	vector<string> *m_vecEdges = new vector<string>[m_iNumNets];
-	unordered_map<string, int> *m_umap_vectex = new unordered_map<string, int>[m_iNumNets];
-	unordered_map<int, string> *m_umap_pro = new unordered_map<int, string>[m_iNumNets];
-	ifstream in(netname);
+	std::vector<std::string> *m_vecEdges = new std::vector<std::string>[m_iNumNets];
+	std::unordered_map<std::string, int> *m_umap_vectex = new std::unordered_map<std::string, int>[m_iNumNets];
+	std::unordered_map<int, std::string> *m_umap_pro = new std::unordered_map<int, std::string>[m_iNumNets];
+	std::ifstream in(netname);
 	if (!in){
-		cout << "can't open net..." << endl;
+		std::cout << "can't open net..." << std::endl;
 	}//从文本中读取网络
 
-	string temp[3];
-	vector<string> id_nets;
+	std::string temp[3];
+	std::vector<std::string> id_nets;
 	int i = 0;
 	int netId = -1;
-	string net = "ID";
-	unordered_map<string, int>::iterator ver;
-	unordered_map<int, string>::iterator pro;
-	cout << "reading network..." << endl;
+	std::string net = "ID";
+	std::unordered_map<std::string, int>::iterator ver;
+	std::unordered_map<int, std::string>::iterator pro;
+	std::cout << "reading network..." << std::endl;
 	while (in >> temp[0] && in >> temp[1] && in >> temp[2])
 	{
 		if (temp[0] != net)
@@ -61,13 +60,10 @@ ReadPPI::ReadPPI(string netname, int num_nets)
 		}
 		igraph_create(&m_igraph[p], &edge_vec[p], m_umap_vectex[p].size(), 0);
 		igraph_simplify(&m_igraph[p], 1, 1, 0);
-		cout << "number of vertex" << igraph_vcount(&m_igraph[p]) << endl;
-		cout << "number of edges" << igraph_ecount(&m_igraph[p]) << endl;
+		std::cout << "number of vertex in " << id_nets[p] << igraph_vcount(&m_igraph[p]) << std::endl;
+		std::cout << "number of edges in " << id_nets[p] << igraph_ecount(&m_igraph[p]) << std::endl;
 
 		const int num_v = igraph_vcount(&m_igraph[p]);
-		cout << "num_v: " << num_v << endl;
-
-
 		unsigned short **adj_matrix = new unsigned short*[num_v];
 		for (int i = 0; i < num_v; i++)
 		{
@@ -95,9 +91,6 @@ ReadPPI::ReadPPI(string netname, int num_nets)
 				adj_matrix[i][VECTOR(*temp)[j]] = 1;
 			}
 		}
-		cout << "adj_matrix done!" << endl;
-
-
 
 		//计算最大特征值对应的特征向量
 		double *te_en = new double[num_v]();
@@ -123,8 +116,6 @@ ReadPPI::ReadPPI(string netname, int num_nets)
 		}
 		delete[]te_en;
 		te_en = NULL;
-
-		cout << "engine done!" << endl;
 		/*for (int i = 0; i < num_v; i++)
 		{
 		mean[0] += engin[i];
@@ -148,15 +139,14 @@ ReadPPI::ReadPPI(string netname, int num_nets)
 				}
 			}
 		}
-		cout << "adj_matrix_2 done" << endl;
 
 		//将每个蛋白质拓扑特征求出来，即一个五维的向量
 		for (int i = 0; i < num_v; i++)
 		{
 			int frist = 0, second = 0;
-			vector<bool> b_frist(num_v, false);
+			std::vector<bool> b_frist(num_v, false);
 			double frist_rep = 0, second_rep = 0;
-			vector<double> temp(5);
+			std::vector<double> temp(5);
 			temp[0] = engin[i];
 
 			for (int j = 0; j < num_v; j++)
@@ -184,7 +174,7 @@ ReadPPI::ReadPPI(string netname, int num_nets)
 			temp[2] = frist_rep;
 			temp[3] = second;
 			temp[4] = second_rep;
-			string protein = m_umap_pro[p][i];
+			std::string protein = m_umap_pro[p][i];
 			top_vec[protein] = temp;
 		}
 
