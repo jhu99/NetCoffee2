@@ -1,5 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <unordered_map>
+#include <igraph.h>
 #include "ReadPPI.h"
 
 
@@ -195,18 +198,18 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 		adj_matrix_2 = NULL;
 
 	}
-	delete[]m_igraph;
-	m_igraph = NULL;
-	delete[] m_vecEdges;
-	m_vecEdges = NULL;
-	delete[] m_umap_pro;
-	m_umap_pro = NULL;
-	delete[]m_umap_vectex;
-	m_umap_vectex = NULL;
+
 }
 
 ReadPPI::~ReadPPI()
 {
-	
+    delete[]m_igraph;
+    m_igraph = NULL;
+    delete[] m_vecEdges;
+    m_vecEdges = NULL;
+    delete[] m_umap_pro;
+    m_umap_pro = NULL;
+    delete[]m_umap_vectex;
+    m_umap_vectex = NULL;
 
 }
