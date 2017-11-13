@@ -32,7 +32,7 @@ int main(int argc, const char * argv[])
     
 	ReadPPI net(mf_option.inputfilename, mf_option.numNet);
     
-    //
+    net.calculate_topologyVector();
 	cout << "sample vector:" << "Q0PHV7" << endl;
 	cout << "(";
 	for (auto i : net.top_vec["Q0PHV7"])

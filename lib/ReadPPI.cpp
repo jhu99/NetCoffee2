@@ -9,17 +9,15 @@
 ReadPPI::ReadPPI(std::string netname, int num_nets)
 {
 	m_iNumNets = num_nets;
-	igraph_t *m_igraph = new igraph_t[m_iNumNets];
-	std::vector<std::string> *m_vecEdges = new std::vector<std::string>[m_iNumNets];
-	std::unordered_map<std::string, int> *m_umap_vectex = new std::unordered_map<std::string, int>[m_iNumNets];
-	std::unordered_map<int, std::string> *m_umap_pro = new std::unordered_map<int, std::string>[m_iNumNets];
+	m_vecEdges = new std::vector<std::string>[m_iNumNets];
+	m_umap_vectex = new std::unordered_map<std::string, int>[m_iNumNets];
+	m_umap_pro = new std::unordered_map<int, std::string>[m_iNumNets];
 	std::ifstream in(netname);
 	if (!in){
 		std::cout << "can't open net..." << std::endl;
 	}//从文本中读取网络
 
 	std::string temp[3];
-	std::vector<std::string> id_nets;
 	int i = 0;
 	int netId = -1;
 	std::string net = "ID";
@@ -33,6 +31,8 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 			netId++;
 			net = temp[0];
 			id_nets.push_back(net);
+			igraph_t igraph;
+			m_igraph.push_back(igraph);
 			i = 0;
 		}
 		m_vecEdges[netId].push_back(temp[1]);
@@ -63,9 +63,28 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 		}
 		igraph_create(&m_igraph[p], &edge_vec[p], m_umap_vectex[p].size(), 0);
 		igraph_simplify(&m_igraph[p], 1, 1, 0);
-		std::cout << "number of vertex in " << id_nets[p] << igraph_vcount(&m_igraph[p]) << std::endl;
-		std::cout << "number of edges in " << id_nets[p] << igraph_ecount(&m_igraph[p]) << std::endl;
+		std::cout << "number of vertex in " << id_nets[p] << " " << igraph_vcount(&m_igraph[p]) << std::endl;
+		std::cout << "number of edges in " << id_nets[p] << " " << igraph_ecount(&m_igraph[p]) << std::endl;
+	}
 
+}
+
+ReadPPI::~ReadPPI()
+{
+    delete[] m_vecEdges;
+    m_vecEdges = NULL;
+    delete[] m_umap_pro;
+    m_umap_pro = NULL;
+    delete[]m_umap_vectex;
+    m_umap_vectex = NULL;
+
+}
+
+void ReadPPI::calculate_topologyVector()
+{
+	std::cout << "begin calculate every protein in PPI networks" << std::endl;
+	for (int p = 0; p < m_iNumNets; p++)
+	{
 		const int num_v = igraph_vcount(&m_igraph[p]);
 		unsigned short **adj_matrix = new unsigned short*[num_v];
 		for (int i = 0; i < num_v; i++)
@@ -149,7 +168,7 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 			int frist = 0, second = 0;
 			std::vector<bool> b_frist(num_v, false);
 			double frist_rep = 0, second_rep = 0;
-			std::vector<double> temp(5);
+			double* temp = new double[5];
 			temp[0] = engin[i];
 
 			for (int j = 0; j < num_v; j++)
@@ -196,20 +215,6 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 		}
 		delete[]adj_matrix_2;
 		adj_matrix_2 = NULL;
-
+		std::cout << id_nets[p] << "done..." << std::endl;
 	}
-
-}
-
-ReadPPI::~ReadPPI()
-{
-    delete[]m_igraph;
-    m_igraph = NULL;
-    delete[] m_vecEdges;
-    m_vecEdges = NULL;
-    delete[] m_umap_pro;
-    m_umap_pro = NULL;
-    delete[]m_umap_vectex;
-    m_umap_vectex = NULL;
-
 }
