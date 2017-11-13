@@ -63,8 +63,8 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 		}
 		igraph_create(&m_igraph[p], &edge_vec[p], m_umap_vectex[p].size(), 0);
 		igraph_simplify(&m_igraph[p], 1, 1, 0);
-		std::cout << "number of vertex in " << id_nets[p] << " " << igraph_vcount(&m_igraph[p]) << std::endl;
-		std::cout << "number of edges in " << id_nets[p] << " " << igraph_ecount(&m_igraph[p]) << std::endl;
+		std::cout << "number of vertex in " << id_nets[p] << ": " << igraph_vcount(&m_igraph[p]) << std::endl;
+		std::cout << "number of edges in " << id_nets[p] << ": " << igraph_ecount(&m_igraph[p]) << std::endl;
 	}
 
 }
@@ -215,6 +215,6 @@ void ReadPPI::calculate_topologyVector()
 		}
 		delete[]adj_matrix_2;
 		adj_matrix_2 = NULL;
-		std::cout << id_nets[p] << "done..." << std::endl;
+		std::cout << id_nets[p] << "  done..." << std::endl;
 	}
 }
