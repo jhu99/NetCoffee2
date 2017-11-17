@@ -26,6 +26,8 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 	std::cout << "reading network..." << std::endl;
 	while (in >> temp[0] && in >> temp[1] && in >> temp[2])
 	{
+		net_protein[temp[1]] = temp[0];
+		net_protein[temp[2]] = temp[0];
 		if (temp[0] != net)
 		{
 			netId++;
@@ -78,6 +80,13 @@ ReadPPI::~ReadPPI()
     delete[]m_umap_vectex;
     m_umap_vectex = NULL;
 
+	std::unordered_map<std::string, double* >::iterator it;
+	for (it = top_vec.begin(); it != top_vec.end(); it++)
+	{
+		delete[] it->second;
+		it->second = NULL;
+	}
+
 }
 
 void ReadPPI::calculate_topologyVector()
@@ -86,17 +95,8 @@ void ReadPPI::calculate_topologyVector()
 	for (int p = 0; p < m_iNumNets; p++)
 	{
 		const int num_v = igraph_vcount(&m_igraph[p]);
-		unsigned short **adj_matrix = new unsigned short*[num_v];
-		for (int i = 0; i < num_v; i++)
-		{
-			adj_matrix[i] = new unsigned short[num_v]();
-		}
-
-		unsigned short **adj_matrix_2 = new unsigned short*[num_v];
-		for (int i = 0; i < num_v; i++)
-		{
-			adj_matrix_2[i] = new unsigned short[num_v]();
-		}
+		unsigned short *adj_matrix = new unsigned short[num_v * num_v]();
+		unsigned short *adj_matrix_2 = new unsigned short[num_v * num_v]();
 
 		double *engin = new double[num_v]();
 		igraph_adjlist_t al;
@@ -110,7 +110,7 @@ void ReadPPI::calculate_topologyVector()
 			int size = igraph_vector_int_size(temp);
 			for (int j = 0; j < size; j++)
 			{
-				adj_matrix[i][VECTOR(*temp)[j]] = 1;
+				adj_matrix[i * num_v + (VECTOR(*temp)[j])] = 1;
 			}
 		}
 
@@ -120,9 +120,9 @@ void ReadPPI::calculate_topologyVector()
 		{
 			for (int j = 0; j < num_v; j++)
 			{
-				te_en[i] += adj_matrix[j][i];
+				te_en[i] += adj_matrix[i * num_v + j];
 			}
-			//cout << "te_en:" << i << " " << te_en[i] << " " << endl;
+			//std::cout << "te_en:" << i << " " << te_en[i] << " " << std::endl;
 		}
 
 		for (int i = 0; i < num_v; i++)
@@ -131,31 +131,27 @@ void ReadPPI::calculate_topologyVector()
 			{
 				if (te_en[j] != 0)
 				{
-					engin[i] += adj_matrix[i][j] / te_en[j];
+					engin[i] += adj_matrix[i * num_v + j] / te_en[j];
 				}
 			}
 
 		}
 		delete[]te_en;
 		te_en = NULL;
-		/*for (int i = 0; i < num_v; i++)
-		{
-		mean[0] += engin[i];
-		}
-		mean[0] = mean[0] / num_v;*/
+		
 		//将邻接矩阵自乘，得到两步可达的所有的点
 
 		for (int i = 0; i < num_v; i++)
 		{
 			for (int j = 0; j < num_v; j++)
 			{
-				if (adj_matrix[i][j] != 0)
+				if (adj_matrix[i * num_v + j] != 0)
 				{
 					for (int k = 0; k < num_v; k++)
 					{
-						if (adj_matrix[j][k] != 0)
+						if (adj_matrix[j*num_v + k] != 0)
 						{
-							adj_matrix_2[i][k] += adj_matrix[i][j] * adj_matrix[j][k];
+							adj_matrix_2[i * num_v + k] += adj_matrix[i * num_v + j] * adj_matrix[j * num_v + k];
 						}
 					}
 				}
@@ -166,14 +162,14 @@ void ReadPPI::calculate_topologyVector()
 		for (int i = 0; i < num_v; i++)
 		{
 			int frist = 0, second = 0;
-			std::vector<bool> b_frist(num_v, false);
+			bool* b_frist = new bool[num_v]();
 			double frist_rep = 0, second_rep = 0;
 			double* temp = new double[5];
 			temp[0] = engin[i];
 
 			for (int j = 0; j < num_v; j++)
 			{
-				if (adj_matrix[i][j] != 0)
+				if (adj_matrix[i * num_v + j] != 0)
 				{
 					frist++;
 					b_frist[j] = true;
@@ -182,12 +178,12 @@ void ReadPPI::calculate_topologyVector()
 			}
 			for (int j = 0; j < num_v; j++)
 			{
-				if (adj_matrix_2[i][j] != 0)
+				if (adj_matrix_2[i * num_v + j] != 0)
 				{
 					if (!b_frist[j] && j != i)
 					{
 						second++;
-						second_rep += engin[j] * adj_matrix_2[i][j] / 2;
+						second_rep += engin[j] * adj_matrix_2[i * num_v + j] / 2;
 					}
 				}
 			}
@@ -200,19 +196,9 @@ void ReadPPI::calculate_topologyVector()
 			top_vec[protein] = temp;
 		}
 
-		for (int i = 0; i < num_v; i++)
-		{
-			delete[]adj_matrix[i];
-			adj_matrix[i] = 0;
-		}
 		delete[]adj_matrix;
 		adj_matrix = NULL;
 
-		for (int i = 0; i < num_v; i++)
-		{
-			delete[]adj_matrix_2[i];
-			adj_matrix_2[i] = 0;
-		}
 		delete[]adj_matrix_2;
 		adj_matrix_2 = NULL;
 		std::cout << id_nets[p] << "  done..." << std::endl;

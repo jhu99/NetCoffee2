@@ -13,6 +13,7 @@ public:
 	~ReadPPI();
 	std::unordered_map<std::string, double* > top_vec;
 	void calculate_topologyVector();
+	std::unordered_map<std::string, std::string> net_protein;
 
 private:
 	int m_iNumNets;

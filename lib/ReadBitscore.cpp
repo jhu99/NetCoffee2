@@ -3,15 +3,17 @@
 #include <iostream>
 #include <cmath>
 
+std::vector<std::string> split(std::string pattern, std::string str);
+
 std::string str_add(std::string str1, std::string str2)
 {
 	if (str1 < str2)
 	{
-		return str1 + str2;
+		return str1 + "\t" + str2;
 	}
 	else
 	{
-		return str2 + str1;
+		return str2 + "\t" + str1;
 	}
 }
 
@@ -25,8 +27,10 @@ double distance(double* pro1, double* pro2)
 	return 1/ (1 + sqrt(res));
 }
 
-ReadBitscore::ReadBitscore(std::string filename, ReadPPI &network)
+ReadBitscore::ReadBitscore(std::string filename, 
+	std::unordered_map<std::string, double* > &top_vec, double alph)
 {
+	m_dAlph = alph;
 	m_dMaxBitsc = 0;
 	m_dMinBitsc = 1000;
 	std::ifstream in(filename);
@@ -41,7 +45,7 @@ ReadBitscore::ReadBitscore(std::string filename, ReadPPI &network)
 		if (temp[0] != temp[1])
 		{
 			std::string str_pro = str_add(temp[0], temp[1]);
-			double top = distance(network.top_vec[temp[0]], network.top_vec[temp[1]]);
+			double top = distance(top_vec[temp[0]], top_vec[temp[1]]);
 			score* scr = new score;
 			scr->bitscore = value;
 			scr->topscore = top;
@@ -56,18 +60,56 @@ ReadBitscore::ReadBitscore(std::string filename, ReadPPI &network)
 				m_dMinBitsc = value;
 			}
 		}
+		can_size = protein_score.size();
 	}
+	std::cout << "read done..." << std::endl;
 }
 
 ReadBitscore::~ReadBitscore()
 {
 }
 
-double ReadBitscore::getScore(std::string pro1, std::string pro2)
+void ReadBitscore::colected_candidates(std::string* candidates)
 {
-	double alph = 0.5;
-	std::string temp = str_add(pro1, pro2);
-	double bit = protein_score[temp]->bitscore;
-	double top = protein_score[temp]->topscore;
-	return (bit - m_dMinBitsc) / (m_dMaxBitsc - m_dMinBitsc) * alph + top * (1 - alph);
+	std::cout << "begin select candidates..." << std::endl;
+	double res = 0;
+	int cnt = 0;
+	std::unordered_map<std::string, score*>::iterator it;
+	for (it = protein_score.begin(); it != protein_score.end(); it++)
+	{
+		std::vector<std::string> temp = split("\t", it->first);
+		candidates[cnt] = temp[0];
+		candidates[cnt + 1] = temp[1];
+		cnt += 2;
+
+		double bit = it->second->bitscore;
+		double top = it->second->topscore;
+		double fin = (bit - m_dMinBitsc) / (m_dMaxBitsc - m_dMinBitsc) * m_dAlph
+			+ top * (1 - m_dAlph);
+		it->second->finalscore = fin;
+		can_weight[it->first] = fin;
+		res += fin;
+	}
+	m_dMeanf = res / protein_score.size();
+	std::cout << "select finish!" << std::endl;
+	std::cout << "mean of final score: " << res / protein_score.size() << std::endl;
+}
+
+std::vector<std::string> split(std::string pattern, std::string str) //定义分割字符串的函数
+{
+	size_t pos;
+	std::vector<std::string> result;
+	str = str + pattern;
+	int size = str.size();
+
+	for (int i = 0; i < size; i++){
+		pos = str.find(pattern, i);
+		if (pos < size){
+			std::string s = str.substr(i, pos - i);
+			result.push_back(s);
+			i = pos + pattern.size() - 1;
+		}
+	}
+
+	return result;
 }
