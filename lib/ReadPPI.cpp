@@ -15,7 +15,7 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 	std::ifstream in(netname);
 	if (!in){
 		std::cout << "can't open net..." << std::endl;
-	}//从文本中读取网络
+	}//read network form file
 
 	std::string temp[3];
 	int i = 0;
@@ -26,8 +26,8 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 	std::cout << "reading network..." << std::endl;
 	while (in >> temp[0] && in >> temp[1] && in >> temp[2])
 	{
-		net_protein[temp[1]] = temp[0];
-		net_protein[temp[2]] = temp[0];
+		net_protein[temp[1]] = netId;
+		net_protein[temp[2]] = netId;
 		if (temp[0] != net)
 		{
 			netId++;
@@ -102,7 +102,7 @@ void ReadPPI::calculate_topologyVector()
 		igraph_adjlist_t al;
 		igraph_adjlist_init(&m_igraph[p], &al, IGRAPH_OUT);
 
-		//初始化邻接矩阵，使用的是数组
+		//initial adjcent matrix 
 		for (int i = 0; i < num_v; i++)
 		{
 			igraph_vector_int_t *temp;
@@ -114,7 +114,7 @@ void ReadPPI::calculate_topologyVector()
 			}
 		}
 
-		//计算最大特征值对应的特征向量
+		//calculate engine of adjcent matrix
 		double *te_en = new double[num_v]();
 		for (int i = 0; i < num_v; i++)
 		{
@@ -139,7 +139,7 @@ void ReadPPI::calculate_topologyVector()
 		delete[]te_en;
 		te_en = NULL;
 		
-		//将邻接矩阵自乘，得到两步可达的所有的点
+		//calculate all distance of two vertice in network
 
 		for (int i = 0; i < num_v; i++)
 		{
@@ -158,7 +158,7 @@ void ReadPPI::calculate_topologyVector()
 			}
 		}
 
-		//将每个蛋白质拓扑特征求出来，即一个五维的向量
+		//calculate the topology vector of every vertex
 		for (int i = 0; i < num_v; i++)
 		{
 			int frist = 0, second = 0;

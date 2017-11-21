@@ -1,10 +1,11 @@
 #include "simulate.h"
 #include <fstream>
 #include <time.h>
+#include <random>
 #include <iostream>
 
 sumulate::sumulate(int _K, int _T_max, int _T_min, int can_size,
-	std::string* candidate, Alignment *ali)
+	std::unordered_map<std::string, score*>::iterator *candidate, Alignment *ali)
 {
 	m_iK = _K;
 	m_iTmax = _T_max;
@@ -23,34 +24,22 @@ void sumulate::start()
 {
 	std::cout << "begin iterate..." << std::endl;
 	std::ofstream out("alignment_score.txt");
-	float score = 0;
+	double score = 0;
 	
+	std::default_random_engine generator;
+	std::uniform_int_distribution<int> distribution(0, m_cansize - 1);
 	int T0 = m_iTmax, Ti;
-	float s = 0.005;
+	double s = 0.005;
 	int i = 1;
-	srand(time(NULL));
 	while (i < m_iK)
 	{
 		int n = 0;
 		Ti = T0 - i * (m_iTmax - m_iTmin) / m_iK;
-		while (n < 20)
+		while (n < 2000)
 		{
-			clock_t start = clock();
-
-			std::string p1, p2;
-			int _random = rand() % (m_cansize * 2 - 1);   //取一个随机数
-			if (_random % 2 == 0)
-			{
-				p1 = m_Pcandidates[_random];
-				p2 = m_Pcandidates[_random + 1];
-			}
-			else
-			{
-				p1 = m_Pcandidates[_random - 1];
-				p2 = m_Pcandidates[_random];
-			}
-
-			score += m_Pali->update(p1, p2, Ti, s);
+			int _random = distribution(generator);   //取一个随机数
+			std::vector<std::string> pro = split("\t", m_Pcandidates[_random]->first);
+			score += m_Pali->update(pro[0], pro[1], Ti, s);
 			out << score << "\n";
 			n++;
 		}
@@ -59,6 +48,6 @@ void sumulate::start()
 	}
 	std::cout << "iterator done..." << std::endl;
 	std::cout << "writing alignment..." << std::endl;
-	m_Pali->writeAlignment("result1.txt");
+	m_Pali->writeAlignment("result2.txt");
 	std::cout << "all finish" << std::endl;
 }

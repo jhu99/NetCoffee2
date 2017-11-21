@@ -10,7 +10,7 @@ class sumulate
 {
 public:
 	sumulate(int _K, int _T_max, int _T_min, int can_size,
-		std::string* candidate, Alignment *ali);
+		std::unordered_map<std::string, score*>::iterator *candidate, Alignment *ali);
 	~sumulate();
 	void start();
 
@@ -19,7 +19,7 @@ private:
 	int m_iTmax;
 	int m_iTmin;
 	int m_cansize;
-	std::string* m_Pcandidates;
+	std::unordered_map<std::string, score*>::iterator* m_Pcandidates;
 	Alignment *m_Pali;
 
 };

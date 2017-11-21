@@ -1,4 +1,5 @@
 #include <iostream>
+#include <array>
 #include "ReadPPI.h"
 #include "argparser.h"
 #include "ReadBitscore.h"
@@ -7,7 +8,6 @@
 
 using namespace std;
 
-std::string str_add(std::string str1, std::string str2);
 
 struct Option{
     std::string inputfilename;
@@ -59,31 +59,19 @@ int main(int argc, const char * argv[])
 	ReadPPI net("int_nets.tab", 3);
 	net.calculate_topologyVector();
 
-	cout << "sample vector:" << "Q9EQK5" << endl;
-	cout << "(";
-	for (int i = 0; i < 5; i++)
-	{
-		cout << net.top_vec["Q9EQK5"][i] << " ";
-	}
-	cout << ")" << endl;
-	cout << "sample vector:" << "Q80Z64" << endl;
-	cout << "(";
-	for (int i = 0; i < 5; i++)
-	{
-		cout << net.top_vec["Q80Z64"][i] << " ";
-	}
-	cout << ")" << endl;
-
-
 	unordered_map<std::string, double* > top = net.top_vec;
 	ReadBitscore bitscore("int_bit.cf", top, 0.5);
-	string* candidates = new string[(bitscore.can_size) * 2];
-	bitscore.colected_candidates(candidates);
 
-	Alignment Ali(net.net_protein, bitscore.can_weight, bitscore.m_dMeanf);
-
+	unordered_map<string, score*>::iterator *candidates = new
+		unordered_map<string, score*>::iterator[bitscore.protein_score.size()];
+	bitscore.colected_candidates(1, candidates);
+	
+	Alignment Ali(&net.net_protein, &bitscore.protein_score, bitscore.m_dMeanf);
+	cout << bitscore.m_dMeanf << endl;
 	sumulate sim(100, 100, 10, bitscore.can_size, candidates, &Ali);
 	sim.start();
+	
+
 	
 	return 0;
 }
