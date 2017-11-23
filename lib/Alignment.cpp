@@ -81,10 +81,6 @@ int Alignment::scenarios(std::string pro1, std::string pro2)
 
 double Alignment::update(std::string pro1, std::string pro2, int T_i, float m_ds)
 {
-	if (pro2 == "Q9SX31")
-	{
-		int j = 0;
-	}
 	std::list<std::vector<std::string>* >::iterator ite;
 	double before = 0, after = 0;
 	int sce = scenarios(pro1, pro2);

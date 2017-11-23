@@ -68,11 +68,17 @@ void ReadBitscore::colected_candidates(double beta,
 		if (fin < min)
 			min = fin;
 	}
-	//m_dMeanf = res / protein_score.size();
-
+	
 	//contral the density of conserved proteins from one PPI network
 	//beta from 0.5 to 1, 1 means that no candidates of conserved proteins from one PPI network
-	m_dMeanf = beta * max;
+	if (beta <= 1 && beta >= 0)
+	{
+		m_dMeanf = beta * max;
+	}
+	else
+	{
+		m_dMeanf = res / protein_score.size();
+	}
 	std::cout << "select finish!" << std::endl;
 	std::cout << "mean of final score: " << res / protein_score.size() << std::endl;
 }

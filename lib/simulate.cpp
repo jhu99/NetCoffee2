@@ -1,6 +1,5 @@
 #include "simulate.h"
 #include <fstream>
-#include <time.h>
 #include <random>
 #include <iostream>
 
@@ -48,6 +47,6 @@ void sumulate::start()
 	}
 	std::cout << "iterator done..." << std::endl;
 	std::cout << "writing alignment..." << std::endl;
-	m_Pali->writeAlignment("result2.txt");
+	m_Pali->writeAlignment("result_int_test2_mean.txt");
 	std::cout << "all finish" << std::endl;
 }
