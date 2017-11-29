@@ -15,7 +15,7 @@ endif
 ifeq ($(MODE),Debug)
 CXXFLAGS = -Wall -g3 -DDEBUG -std=c++0x -DVERBOSE -Ilib/
 else
-CXXFLAGS = -Wall -O3 -ffast-math -Ilib/ -I/usr/local/include/igraph/ -std=c++0x -DNDEBUG -l/usr/local/lib/libigraph.a
+CXXFLAGS = -Wall -O3 -ffast-math -Ilib/ -I/usr/local/include/igraph/ -std=c++0x -DNDEBUG -ligraph
 endif
 all: miteFinderTest patternLearningTest ArgParserTest
 miteFinderTest: tests/miteFinderTest.cpp lib/genome.o lib/mite.o lib/argparser.o
@@ -25,6 +25,6 @@ patternLearningTest: tests/patternTest.cpp lib/genome.o
 ArgParserTest: tests/testargparser.cpp lib/argparser.o
 	${CXX} ${CXXFLAGS} -o $@ $^
 NetCoffee2: test/test.cpp lib/simulate.o lib/Alignment.o lib/argparser.o lib/ReadBitscore.o lib/ReadPPI.o lib/ProteinRel.o
-	${CXX} ${CXXFLAGS} -o $@ $^
+	${CXX} $^ ${CXXFLAGS} -o $@
 clean:
 	rm lib/*.o
