@@ -1,5 +1,6 @@
 #include "Alignment.h"
 #include <fstream>
+#include <ctime>
 #include <string>
 #include <iostream>
 #include <random>
@@ -291,7 +292,7 @@ int Alignment::judge(std::string pro1, std::string pro2)
 
 bool Alignment::doit(float _dat, int T_i, float m_ds)
 {
-	std::default_random_engine generator;
+	std::default_random_engine generator(time(NULL));
 	std::uniform_int_distribution<int> distribution(0, 100);
 
 	if (_dat > 0)

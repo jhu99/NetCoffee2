@@ -1,10 +1,11 @@
 #include "simulate.h"
 #include <fstream>
+#include <ctime>
 #include <random>
 #include <iostream>
 
 sumulate::sumulate(int _K, int _T_max, int _T_min, int can_size,
-	std::unordered_map<std::string, score*>::iterator *candidate, Alignment *ali)
+	std::unordered_map<std::string, score*>::iterator *candidate, Alignment *ali, std::string output)
 {
 	m_iK = _K;
 	m_iTmax = _T_max;
@@ -12,6 +13,8 @@ sumulate::sumulate(int _K, int _T_max, int _T_min, int can_size,
 	m_Pcandidates = candidate;
 	m_cansize = can_size;
 	m_Pali = ali;
+	m_Soutput = output;
+
 }
 
 sumulate::~sumulate()
@@ -25,7 +28,7 @@ void sumulate::start()
 	std::ofstream out("alignment_score.txt");
 	double score = 0;
 	
-	std::default_random_engine generator;
+	std::default_random_engine generator(time(NULL));
 	std::uniform_int_distribution<int> distribution(0, m_cansize - 1);
 	int T0 = m_iTmax, Ti;
 	double s = 0.005;
@@ -36,7 +39,7 @@ void sumulate::start()
 		Ti = T0 - i * (m_iTmax - m_iTmin) / m_iK;
 		while (n < 2000)
 		{
-			int _random = distribution(generator);   //取一个随机数
+			int _random = distribution(generator);   //get a random number
 			std::vector<std::string> pro = split("\t", m_Pcandidates[_random]->first);
 			score += m_Pali->update(pro[0], pro[1], Ti, s);
 			out << score << "\n";
@@ -47,6 +50,6 @@ void sumulate::start()
 	}
 	std::cout << "iterator done..." << std::endl;
 	std::cout << "writing alignment..." << std::endl;
-	m_Pali->writeAlignment("result_int_test2_mean.txt");
+	m_Pali->writeAlignment(m_Soutput);
 	std::cout << "all finish" << std::endl;
 }

@@ -1,4 +1,3 @@
-//
 //  argparser.h
 //  miteFinder
 //

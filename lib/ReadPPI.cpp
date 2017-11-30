@@ -194,7 +194,13 @@ void ReadPPI::calculate_topologyVector()
 			temp[4] = second_rep;
 			std::string protein = m_umap_pro[p][i];
 			top_vec[protein] = temp;
+
+			delete[] b_frist;
+			b_frist = NULL;
 		}
+
+		delete[] engin;
+		engin = NULL;
 
 		delete[]adj_matrix;
 		adj_matrix = NULL;
