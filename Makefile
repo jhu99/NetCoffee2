@@ -13,7 +13,7 @@ endif
 endif
 # Flags for compiling the code
 ifeq ($(MODE),Debug)
-CXXFLAGS = -Wall -g3 -DDEBUG -std=c++0x -DVERBOSE -Ilib/
+CXXFLAGS = -Wall -g3 -DDEBUG -I/usr/local/include/igraph/ -Ilib/ -std=c++0x -DVERBOSE -ligraph
 else
 CXXFLAGS = -Wall -O3 -ffast-math -Ilib/ -I/usr/local/include/igraph/ -std=c++0x -DNDEBUG -ligraph
 endif
@@ -24,7 +24,7 @@ patternLearningTest: tests/patternTest.cpp lib/genome.o
 	${CXX} ${CXXFLAGS} -o $@ $^
 ArgParserTest: tests/testargparser.cpp lib/argparser.o
 	${CXX} ${CXXFLAGS} -o $@ $^
-NetCoffee2: test/test.cpp lib/simulate.o lib/Alignment.o lib/argparser.o lib/ReadBitscore.o lib/ReadPPI.o lib/ProteinRel.o
+NetCoffee2: test/test_beta.cpp lib/simulate.o lib/Alignment.o lib/argparser.o lib/ReadBitscore.o lib/ReadPPI.o lib/ProteinRel.o
 	${CXX} $^ ${CXXFLAGS} -o $@
 clean:
 	rm lib/*.o
