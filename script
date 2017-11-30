@@ -1,0 +1,9 @@
+#! /bin/bash
+# test NetCoffee2 50 times with different alpha
+
+
+for ((i = 1; i <= 50; i++))
+do
+	alph=`echo "scale=2; $i / 50"|bc`
+	./NetCoffee2 -input_net ./testdata/test2/int_net_test2.txt -input_bit ./testdata/test2/int_bit_test2.txt -output "alignmentResule_alph$alph.txt" -numnet 3 -alph $alph
+done

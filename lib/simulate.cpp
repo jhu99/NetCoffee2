@@ -25,7 +25,7 @@ sumulate::~sumulate()
 void sumulate::start()
 {
 	std::cout << "begin iterate..." << std::endl;
-	std::ofstream out("alignment_score.txt");
+	std::ofstream out("./result/alignment_score.txt");
 	double score = 0;
 	
 	std::default_random_engine generator(time(NULL));

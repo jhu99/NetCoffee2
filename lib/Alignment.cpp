@@ -42,7 +42,7 @@ double Alignment::getMatchScore(std::vector<std::string>* match)
 
 void Alignment::writeAlignment(std::string output)
 {
-	std::ofstream os(output);
+	std::ofstream os("./result/" + output);
 	if (!os)
 	{
 		std::cout << "can open output file..." << std::endl;

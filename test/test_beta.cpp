@@ -35,8 +35,8 @@ int main(int argc, const char * argv[])
     mf_parser.setVerion("1.0.006");
     mf_parser.refOption("help", "Show help information.", mf_option.help);
     mf_parser.refOption("version", "Show the current version.", mf_option.version);
-    mf_parser.refOption("input_net", "The path of an input file.", mf_option.inputfilename_net, "", true);
-	mf_parser.refOption("input_bit", "The path of an input file.", mf_option.inputfilename_bit, "", true);
+    mf_parser.refOption("inputnet", "The path of an input file.", mf_option.inputfilename_net, "", true);
+	mf_parser.refOption("inputbit", "The path of an input file.", mf_option.inputfilename_bit, "", true);
     mf_parser.refOption("numnet", "The number of ppi networks", mf_option.numNet,3,true);
 	mf_parser.refOption("output", "The path of an output file.", mf_option.outputfilename, "", true);
 	mf_parser.refOption("alph", "alph for sequence and topology similarity", mf_option.aplh, 0.5);
