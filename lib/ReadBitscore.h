@@ -17,7 +17,6 @@ public:
 	int can_size;
 
 private:
-	int m_iNumNets;
 	double m_dMaxBitsc;
 	double m_dMinBitsc;
 	double m_dAlph;

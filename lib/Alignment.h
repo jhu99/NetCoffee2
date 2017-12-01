@@ -1,5 +1,5 @@
 #ifndef Alignment_h
-#define Alignemnt_h
+#define Alignment_h
 
 #include "ProteinRel.h"
 #include <list>
