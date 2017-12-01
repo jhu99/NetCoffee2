@@ -1,7 +1,9 @@
 # NetCoffee2
 ################################################################################
 PROGRAM:NetCoffee2
+
 AUTHOR:JIALU HU and JUNHAO HE
+
 EMAIL: jialu.hu@fu-berlin.de  hejunhao@mail.nwpu.edu.cn
 
 Copyright (C++) <2017>  <Junhao He>
