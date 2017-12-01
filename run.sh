@@ -4,5 +4,5 @@
 
 for ((i = 1; i <= 50; i++))
 do
-	echo “./NetCoffee2 -input_net ./testdata/test2/int_net_test2.txt -input_bit ./testdata/test2/int_bit_test2.txt -output "alignmentResule_alph$i.txt" -numnet 3“
+   ./NetCoffee2 -inputnet ./testdata/test2/int_net_test2.txt -inputbit ./testdata/test2/int_bit_test2.txt -output "alignmentResule_alph$i.txt" -numnet 3
 done
