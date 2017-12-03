@@ -12,7 +12,7 @@ public:
 	sumulate(int _K, int _T_max, int _T_min, int can_size,
 		std::unordered_map<std::string, score*>::iterator *candidate, Alignment *ali, std::string output);
 	~sumulate();
-	void start();
+	void start(std::ofstream &out);
 
 private:
 	int m_iK;
