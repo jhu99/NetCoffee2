@@ -42,10 +42,10 @@ double Alignment::getMatchScore(std::vector<std::string>* match)
 
 void Alignment::writeAlignment(std::string output)
 {
-	std::ofstream os("./result/" + output);
+	std::ofstream os(output + ".ali");
 	if (!os)
 	{
-		std::cout << "can open output file..." << std::endl;
+		std::cout << "# can open output file..." << std::endl;
 	}
 	std::list<std::vector<std::string>*>::iterator it;
 	for (it = alignmrnt.begin(); it != alignmrnt.end(); it++)

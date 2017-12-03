@@ -14,7 +14,7 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 	m_umap_pro = new std::unordered_map<int, std::string>[m_iNumNets];
 	std::ifstream in(netname);
 	if (!in){
-		std::cout << "can't open net..." << std::endl;
+		std::cout << "# can't open net..." << std::endl;
 	}//read network form file
 
 	std::string temp[3];
@@ -23,7 +23,7 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 	std::string net = "ID";
 	std::unordered_map<std::string, int>::iterator ver;
 	std::unordered_map<int, std::string>::iterator pro;
-	std::cout << "reading network..." << std::endl;
+	std::cout << "# reading network..." << std::endl;
 	while (in >> temp[0] && in >> temp[1] && in >> temp[2])
 	{
 		net_protein[temp[1]] = netId;
@@ -65,8 +65,8 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 		}
 		igraph_create(&m_igraph[p], &edge_vec[p], m_umap_vectex[p].size(), 0);
 		igraph_simplify(&m_igraph[p], 1, 1, 0);
-		std::cout << "number of vertex in " << id_nets[p] << ": " << igraph_vcount(&m_igraph[p]) << std::endl;
-		std::cout << "number of edges in " << id_nets[p] << ": " << igraph_ecount(&m_igraph[p]) << std::endl;
+		std::cout << "# number of vertex in " << id_nets[p] << ": " << igraph_vcount(&m_igraph[p]) << std::endl;
+		std::cout << "# number of edges in " << id_nets[p] << ": " << igraph_ecount(&m_igraph[p]) << std::endl;
 	}
 
 }
@@ -91,7 +91,7 @@ ReadPPI::~ReadPPI()
 
 void ReadPPI::calculate_topologyVector()
 {
-	std::cout << "begin calculate every protein in PPI networks" << std::endl;
+	std::cout << "# begin calculate every protein in PPI networks" << std::endl;
 	for (int p = 0; p < m_iNumNets; p++)
 	{
 		const int num_v = igraph_vcount(&m_igraph[p]);
@@ -207,6 +207,6 @@ void ReadPPI::calculate_topologyVector()
 
 		delete[]adj_matrix_2;
 		adj_matrix_2 = NULL;
-		std::cout << id_nets[p] << "  done..." << std::endl;
+		std::cout << "# " << id_nets[p] << "  done..." << std::endl;
 	}
 }

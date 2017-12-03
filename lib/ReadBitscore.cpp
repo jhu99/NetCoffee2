@@ -11,10 +11,10 @@ ReadBitscore::ReadBitscore(std::string filename,
 	m_dMinBitsc = 1000;
 	std::ifstream in(filename);
 	if (!in){
-		std::cout << "can't open bip net..." << std::endl;
+		std::cout << "# can't open bitcore file..." << std::endl;
 	}//read bitscore from file
 	std::string temp[3];
-	std::cout << "reading bip network..." << std::endl;
+	std::cout << "# reading bit score file..." << std::endl;
 	while (in >> temp[0] && in >> temp[1] && in >> temp[2])
 	{
 		double value = atof(temp[2].c_str());
@@ -38,7 +38,7 @@ ReadBitscore::ReadBitscore(std::string filename,
 		}
 		can_size = protein_score.size();
 	}
-	std::cout << "read done..." << std::endl;
+	std::cout << "# read done..." << std::endl;
 }
 
 ReadBitscore::~ReadBitscore()
@@ -48,7 +48,7 @@ ReadBitscore::~ReadBitscore()
 void ReadBitscore::colected_candidates(double beta,
 	std::unordered_map<std::string, score*>::iterator *candidate)
 {
-	std::cout << "begin select candidates..." << std::endl;
+	std::cout << "# begin select candidates..." << std::endl;
 	double res = 0;
 	double max = 0, min = 10000;
 	int cnt = 0;
@@ -79,7 +79,7 @@ void ReadBitscore::colected_candidates(double beta,
 	{
 		m_dMeanf = res / protein_score.size();
 	}
-	std::cout << "select finish!" << std::endl;
-	std::cout << "mean of final score: " << res / protein_score.size() << std::endl;
+	std::cout << "# select finish!" << std::endl;
+	std::cout << "# mean of final score: " << res / protein_score.size() << std::endl;
 }
 

@@ -6,6 +6,7 @@
 #include "Alignment.h"
 #include "simulate.h"
 #include <time.h>
+#include <fstream>
 
 using namespace std;
 
@@ -46,25 +47,30 @@ int main(int argc, const char * argv[])
         return 1;
 	clock_t start = clock();
 
+	std::ofstream out(mf_option.outputfilename + ".log");
+	std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+	std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+
 	ReadPPI net(mf_option.inputfilename_net, mf_option.numNet);
 	net.calculate_topologyVector();
 
 	unordered_map<std::string, double* > top = net.top_vec;
 	ReadBitscore bitscore(mf_option.inputfilename_bit, top, mf_option.aplh);
 
-	cout << "bitscore.protein_score.size():" << bitscore.protein_score.size() << endl;
+	cout << "# bitscore.protein_score.size():" << bitscore.protein_score.size() << endl;
 	unordered_map<string, score*>::iterator *candidates = new
 		unordered_map<string, score*>::iterator[bitscore.protein_score.size()];
 	bitscore.colected_candidates(mf_option.beta, candidates);
 	
 	Alignment Ali(&net.net_protein, &bitscore.protein_score, bitscore.m_dMeanf);
 	sumulate sim(1000, 100, 10, bitscore.can_size, candidates, &Ali, mf_option.outputfilename);
-	sim.start();
+	sim.start(out);
 	
 	delete[] candidates;
 	candidates = NULL;
 	clock_t ends = clock();
-	cout << "Running Time : " << (double)(ends - start) / CLOCKS_PER_SEC << endl;
+	cout << "# Running Time : " << (double)(ends - start) / CLOCKS_PER_SEC << endl;
+	std::cout.rdbuf(coutbuf); //reset to standard output again
 	
 	return 0;
 }

@@ -22,10 +22,9 @@ sumulate::~sumulate()
 
 }
 
-void sumulate::start()
+void sumulate::start(std::ofstream &out)
 {
-	std::cout << "begin iterate..." << std::endl;
-	std::ofstream out("./result/alignment_score.txt");
+	std::cout << "# begin iterate..." << std::endl;
 	double score = 0;
 	
 	std::default_random_engine generator(time(NULL));
@@ -45,11 +44,11 @@ void sumulate::start()
 			out << score << "\n";
 			n++;
 		}
-		std::cout << "iterator" << i << ",alignment score :" << score << std::endl;
+		std::cout << "# iterator" << i << ",alignment score :" << score << std::endl;
 		i = i + 1;
 	}
-	std::cout << "iterator done..." << std::endl;
-	std::cout << "writing alignment..." << std::endl;
+	std::cout << "# iterator done..." << std::endl;
+	std::cout << "# writing alignment..." << std::endl;
 	m_Pali->writeAlignment(m_Soutput);
-	std::cout << "all finish" << std::endl;
+	std::cout << "# all finish" << std::endl;
 }
