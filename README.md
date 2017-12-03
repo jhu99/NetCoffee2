@@ -75,27 +75,16 @@ For example, suppose we have three PPI networks:homoSapiens, MusMusculus,Drosoph
 -----------------------BEGIN OF INPUTNET---------------------
 
 HomoSapiens	P62633	Q00577
-
 HomoSapiens	Q9GZT8	Q2VPB7
-
 HomoSapiens	O95602	P04626
-
 HomoSapiens	P56524	Q08379
-
 MusMusculus	P10605	P11438
-
 MusMusculus	P03966	Q6PDN3
-
 MusMusculus	Q9DBY1	P57716
-
 MusMusculus	Q9WUD1	Q61083
-
 DroMelanogaster	Q7KSX2	Q7KSX2
-
 DroMelanogaster	Q9VKA1	Q9VX51
-
 DroMelanogaster	Q9BN17	Q9VD53
-
 DroMelanogaster	O61492	A1ZAZ2
 
 -------------------------END OF INPUTNET----------------------
@@ -109,23 +98,14 @@ Here is an example:
 --------------BEGIN OF BITSCORE FILE--------------
 
 P31946	P62258	  325.0
-
 P31946	Q04917	  367.0
-
 P31946	P61981	  373.0
-
 P31946	P31947	  340.0
-
 P31946	P27348	  416.0
-
 P31946	P63104	  441.0
-
 P62258	P31946	  325.0
-
 P62258	P62258	  524.0
-
 P62258	Q04917	  309.0
-
 P62258	P61981	  315.0
 
 --------------END OF BITSCORE FILE--------------
