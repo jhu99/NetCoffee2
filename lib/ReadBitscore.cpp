@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-ReadBitscore::ReadBitscore(std::string filename, 
+ReadBitscore::ReadBitscore(std::string filename,
 	std::unordered_map<std::string, double* > &top_vec, double alph)
 {
 	m_dAlph = alph;
@@ -77,7 +77,7 @@ void ReadBitscore::colected_candidates(double beta,
 	}
 	else
 	{
-		m_dMeanf = res / protein_score.size();
+		m_dMeanf = 0;
 	}
 	std::cout << "# select finish!" << std::endl;
 	std::cout << "# mean of final score: " << res / protein_score.size() << std::endl;

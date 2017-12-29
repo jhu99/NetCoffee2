@@ -17,8 +17,8 @@ public:
 	void writeAlignment(std::string output);
 	int scenarios(std::string pro1, std::string pro2);
 	int judge(std::string pro1, std::string pro2);
-	double update(std::string pro1, std::string pro2, int T_i, float m_ds);
-	bool doit(float _dat, int T_i, float m_ds);
+	double update(std::string pro1, std::string pro2, int T_i, double m_ds);
+	bool doit(double _dat, int T_i, double m_ds);
 	
 
 private:

@@ -71,6 +71,6 @@ int main(int argc, const char * argv[])
 	clock_t ends = clock();
 	cout << "# Running Time : " << (double)(ends - start) / CLOCKS_PER_SEC << endl;
 	std::cout.rdbuf(coutbuf); //reset to standard output again
-	
+	std::cout << "done..." << std::endl;
 	return 0;
 }

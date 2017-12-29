@@ -80,7 +80,7 @@ int Alignment::scenarios(std::string pro1, std::string pro2)
 	return 5;
 }
 
-double Alignment::update(std::string pro1, std::string pro2, int T_i, float m_ds)
+double Alignment::update(std::string pro1, std::string pro2, int T_i, double m_ds)
 {
 	std::list<std::vector<std::string>* >::iterator ite;
 	double before = 0, after = 0;
@@ -129,7 +129,7 @@ double Alignment::update(std::string pro1, std::string pro2, int T_i, float m_ds
 			std::list<std::vector<std::string>* >::iterator it_temp = m_unmA[pro1];
 			std::string sub = temp[jud];
 			temp[jud] = pro2;
-			if (doit(getMatchScore(&temp) - before > 0, T_i, m_ds))
+			if (doit(getMatchScore(&temp) - before, T_i, m_ds))
 			{
 				(**it_temp)[jud] = pro2;
 				m_unmA[pro2] = it_temp;
@@ -155,7 +155,7 @@ double Alignment::update(std::string pro1, std::string pro2, int T_i, float m_ds
 			std::list<std::vector<std::string>* >::iterator it_temp = m_unmA[pro2];
 			std::string sub = temp[jud];
 			temp[jud] = pro1;
-			if (doit(getMatchScore(&temp) - before > 0, T_i, m_ds))
+			if (doit(getMatchScore(&temp) - before, T_i, m_ds))
 			{
 				(**it_temp)[jud] = pro1;
 				m_unmA[pro1] = it_temp;
@@ -178,28 +178,29 @@ double Alignment::update(std::string pro1, std::string pro2, int T_i, float m_ds
 		if (jud1 == -1)
 		{
 			temp1.push_back(pro2);
-			after1 = getMatchScore(&temp1) - before1;
+			after1 = getMatchScore(&temp1);
 		}
 		else
 		{
 			temp1[jud1] = pro2;
-			after1 = getMatchScore(&temp1) - before1;
+			after1 = getMatchScore(&temp1);
 		}
 
 		if (jud2 == -1)
 		{
 			temp2.push_back(pro1);
-			after2 = getMatchScore(&temp2) - before2;
+			after2 = getMatchScore(&temp2);
 		}
 		else
 		{
 			temp2[jud2] = pro1;
-			after2 = getMatchScore(&temp2) - before2;
+			after2 = getMatchScore(&temp2);
 		}
 
 		if (after1 >= after2)
 		{
-			if (doit(after1 - before1 - before2 > 0, T_i, m_ds))
+			if (doit(after1 - before1 - before2, T_i, m_ds))
+			//if (doit(after1 - before1, T_i, m_ds))
 			{
 				if (jud1 == -1)
 				{
@@ -231,7 +232,8 @@ double Alignment::update(std::string pro1, std::string pro2, int T_i, float m_ds
 		}
 		else
 		{
-			if (doit(after2 - before1 - before2 > 0, T_i, m_ds))
+			if (doit(after2 - before1 - before2, T_i, m_ds))
+			//if (doit(after2 - before2, T_i, m_ds))
 			{
 				if (jud2 == -1)
 				{
@@ -290,7 +292,7 @@ int Alignment::judge(std::string pro1, std::string pro2)
 	return -1;
 }
 
-bool Alignment::doit(float _dat, int T_i, float m_ds)
+bool Alignment::doit(double _dat, int T_i, double m_ds)
 {
 	std::default_random_engine generator(time(NULL));
 	std::uniform_int_distribution<int> distribution(0, 100);

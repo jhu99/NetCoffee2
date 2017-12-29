@@ -159,6 +159,7 @@ void ReadPPI::calculate_topologyVector()
 		}
 
 		//calculate the topology vector of every vertex
+		std::vector<double> max_vector(5, 0);
 		for (int i = 0; i < num_v; i++)
 		{
 			int frist = 0, second = 0;
@@ -192,11 +193,29 @@ void ReadPPI::calculate_topologyVector()
 			temp[2] = frist_rep;
 			temp[3] = second;
 			temp[4] = second_rep;
+			for (int b = 0; b < 5; b++)
+			{
+				if (temp[b] > max_vector[b])
+					max_vector[b] = temp[b];
+			}
 			std::string protein = m_umap_pro[p][i];
 			top_vec[protein] = temp;
 
 			delete[] b_frist;
 			b_frist = NULL;
+		}
+
+		std::cout << "# max_vec::" << max_vector[0] << " " << max_vector[1] << " " << max_vector[2] << " "
+			<< max_vector[3] << " " << max_vector[4] << std::endl;
+
+		for (int i = 0; i < num_v; i++)
+		{
+			std::string new_protein = m_umap_pro[p][i];
+			//double *new_temp = top_vec[new_protein];
+			for (int x = 0; x < 5; x++)
+			{
+				top_vec[new_protein][x] = top_vec[new_protein][x] / max_vector[x];
+			}
 		}
 
 		delete[] engin;
@@ -209,4 +228,5 @@ void ReadPPI::calculate_topologyVector()
 		adj_matrix_2 = NULL;
 		std::cout << "# " << id_nets[p] << "  done..." << std::endl;
 	}
+	
 }
