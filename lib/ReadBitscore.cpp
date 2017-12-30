@@ -43,6 +43,12 @@ ReadBitscore::ReadBitscore(std::string filename,
 
 ReadBitscore::~ReadBitscore()
 {
+	std::unordered_map<std::string, score*>::iterator it;
+	for (it = protein_score.begin(); it != protein_score.end(); it++)
+	{
+		delete it->second;
+		it->second = NULL;
+	}
 }
 
 void ReadBitscore::colected_candidates(double beta,
