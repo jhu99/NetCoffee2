@@ -68,7 +68,8 @@ ReadPPI::ReadPPI(std::string netname, int num_nets)
 		std::cout << "# number of vertex in " << id_nets[p] << ": " << igraph_vcount(&m_igraph[p]) << std::endl;
 		std::cout << "# number of edges in " << id_nets[p] << ": " << igraph_ecount(&m_igraph[p]) << std::endl;
 	}
-
+	delete edge_vec;
+	edge_vec = NULL;
 }
 
 ReadPPI::~ReadPPI()
