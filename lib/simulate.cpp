@@ -26,7 +26,7 @@ void sumulate::start(std::ofstream &out)
 {
 	std::cout << "# begin iterate..." << std::endl;
 	double score = 0;
-	double check1 = 0; check2 = 0; int cnt = 0;
+	double check1 = 0, check2 = 0; int cnt = 0;
 	
 	std::default_random_engine generator(time(NULL));
 	std::uniform_int_distribution<int> distribution(0, m_cansize - 1);
