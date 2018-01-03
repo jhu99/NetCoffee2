@@ -54,18 +54,12 @@ void sumulate::start(std::ofstream &out)
 			//std::cout << "after:" << score << std::endl;
 			//std::cout << "ali:" << std::endl;
 			//m_Pali->writeAlignment(m_Soutput);
+			//m_Pali->printMap();
 			//std::cout << std::endl;
 		}
 		std::cout << "# iterator" << i << ",alignment score :" << score << std::endl;
 		i = i + 1;
-		check1 = check2;
-		check2 = score;
-		if (check1 == check2)
-		{
-			cnt++;
-		}
-		if (cnt >= 5)
-			break;
+		
 	}
 	std::cout << "# iterator done..." << std::endl;
 	std::cout << "# writing alignment..." << std::endl;
