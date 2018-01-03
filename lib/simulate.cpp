@@ -27,7 +27,6 @@ void sumulate::start(std::ofstream &out)
 {
 	std::cout << "# begin iterate..." << std::endl;
 	double score = 0;
-	
 	std::default_random_engine generator(time(NULL));
 	std::uniform_int_distribution<int> distribution(0, m_cansize - 1);
 	int T0 = m_iTmax, Ti;
@@ -59,7 +58,6 @@ void sumulate::start(std::ofstream &out)
 		}
 		std::cout << "# iterator" << i << ",alignment score :" << score << std::endl;
 		i = i + 1;
-		
 	}
 	std::cout << "# iterator done..." << std::endl;
 	std::cout << "# writing alignment..." << std::endl;
