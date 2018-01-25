@@ -18,6 +18,7 @@ struct Option{
     std::string outputfilename;
 	double aplh;
 	double beta;
+	double evalue;
     bool help;
     bool version;
     Option(){
@@ -42,6 +43,7 @@ int main(int argc, const char * argv[])
 	mf_parser.refOption("output", "The path of an output file.", mf_option.outputfilename, "", true);
 	mf_parser.refOption("alph", "alph for sequence and topology similarity", mf_option.aplh, 0.5);
 	mf_parser.refOption("beta", "beta used for the rate of conserved protein in a same network", mf_option.beta, 2);
+	mf_parser.refOption("evalue", "evalue used to pick the sequence similarity which has a lower e-value than evalue", mf_option.evalue, 1e-7);
     
     if(!mf_parser.run(argc, argv))
         return 1;
@@ -55,7 +57,7 @@ int main(int argc, const char * argv[])
 	net.calculate_topologyVector();
 
 	unordered_map<std::string, double* > top = net.top_vec;
-	ReadBitscore bitscore(mf_option.inputfilename_bit, top, mf_option.aplh);
+	ReadBitscore bitscore(mf_option.inputfilename_bit, top, mf_option.aplh, mf_option.evalue);
 
 	cout << "# bitscore.protein_score.size():" << bitscore.protein_score.size() << endl;
 	unordered_map<string, score*>::iterator *candidates = new
