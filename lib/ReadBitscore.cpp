@@ -4,7 +4,7 @@
 
 
 ReadBitscore::ReadBitscore(std::string filename,
-	std::unordered_map<std::string, double* > &top_vec, double alph)
+	std::unordered_map<std::string, double* > &top_vec, double alph, double evalue)
 {
 	m_dAlph = alph;
 	m_dMaxBitsc = 0;
@@ -15,13 +15,14 @@ ReadBitscore::ReadBitscore(std::string filename,
 	}//read bitscore from file
 	std::string temp[3];
 	std::cout << "# reading bit score file..." << std::endl;
-	while (in >> temp[0] && in >> temp[1] && in >> temp[2])
+	while (in >> temp[0] && in >> temp[1] && in >> temp[2] && in >> temp[3])
 	{
-		double value = atof(temp[2].c_str());
-		if (temp[0] != temp[1])
+		double e_value = atof(temp[2].c_str());
+		double value = atof(temp[3].c_str());
+		if (temp[0] != temp[1] && e_value < evalue)
 		{
 			std::string str_pro = str_add(temp[0], temp[1]);
-			double top = distance(top_vec[temp[0]], top_vec[temp[1]]);
+			double top = distance_Gaussian(top_vec[temp[0]], top_vec[temp[1]]);
 			score* scr = new score;
 			scr->bitscore = value;
 			scr->topscore = top;

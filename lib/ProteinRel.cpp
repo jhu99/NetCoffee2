@@ -19,9 +19,19 @@ double distance(double* pro1, double* pro2)
 	{
 		res += (pro1[i] - pro2[i]) * (pro1[i] - pro2[i]);
 	}
-	return 1 / (1 + sqrt(res));
+	return sqrt(res);
 }
 
+double distance_Gaussian(double* pro1, double* pro2)
+{
+	double res = 0;
+	for(int i = 0; i < 5; i++)
+	{
+		res += (pro1[i] - pro2[i]) * (pro1[i] - pro2[i]);
+	}
+	res = exp(-(res * res) / 2);
+	return res;
+}
 //define the function to splite a string by "\t"
 std::vector<std::string> split(std::string pattern, std::string str)
 {

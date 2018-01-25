@@ -8,7 +8,7 @@
 class ReadBitscore
 {
 public:
-	ReadBitscore(std::string filename, std::unordered_map<std::string, double* > &top_vec, double alph);
+	ReadBitscore(std::string filename, std::unordered_map<std::string, double* > &top_vec, double alph, double evalue);
 	~ReadBitscore();
 	std::unordered_map<std::string, score*> protein_score;
 	void colected_candidates(double beta, 
