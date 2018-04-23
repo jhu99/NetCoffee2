@@ -121,25 +121,21 @@ Here is an example:
 
 --------------BEGIN OF BITSCORE FILE--------------
 
-P31946	P62258	  325.0	
+Q9V406	Q9D030	3.88e-04	42.0
 
-P31946	Q04917	  367.0	
+Q9VV77	Q9I7U7	0.054	35.0
 
-P31946	P61981	  373.0	
+Q9VF55	Q39244	2.6	29.6
 
-P31946	P31947	  340.0	
+Q8RYD9	Q60929	1.30e-13	70.5
 
-P31946	P27348	  416.0	
+P40301	O81147	1.34e-38	134.0
 
-P31946	P63104	  441.0	
+Q9VJQ5	Q84W66	3.77e-15	71.2
 
-P62258	P31946	  325.0	
+Q9VCZ4	Q06831	2.05e-04	40.0
 
-P62258	P62258	  524.0	
-
-P62258	Q04917	  309.0	
-
-P62258	P61981	  315.0	
+Q6IMB1	O18335	2.58e-15	72.8
 
 --------------END OF BITSCORE FILE--------------
 
@@ -165,21 +161,23 @@ VERSION: NetCoffee2 1.0.006
 
 ALL MANDATORY AND OPTIONAL ARGUMENTS:
 
--help   Show help information.
+-evalue	evalue used to pick the sequence similarity which has a lower e-value than evalue
 
--beta   beta used for the rate of conserved protein in a same network
+-alph	alph for sequence and topology similarity
 
--version        Show the current version.
+-output	A mandatory option. The path of an output file.
 
--numnet A mandatory option. The number of ppi networks
+-numnet	A mandatory option. The number of ppi networks
 
--inputbit       A mandatory option. The path of an input file.
+-help	Show help information.
 
--inputnet       A mandatory option. The path of an input file.
+-version	Show the current version.
 
--output A mandatory option. The path of an output file.
+-inputbit	A mandatory option. The path of an input file.
 
--alph   alph for sequence and topology similarity
+-beta	beta used for the rate of conserved protein in a same network
+
+-inputnet	A mandatory option. The path of an input file.
 
 
 ################################################################################
