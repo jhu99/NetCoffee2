@@ -157,7 +157,7 @@ You can generate the follow message by running the program with option "-help"
 
 $NETCOFFEE2/bin/NetCoffee2 -help
 
-USAGE: NetCoffee2  [-help] [-beta DOUBLE] [-version] -numnet INTEGER -inputbit STRING -inputnet STRING -output STRING [-alph DOUBLE]
+USAGE: NetCoffee2  [-help] [-beta DOUBLE] [-version] -numnet INTEGER -inputbit STRING -inputnet STRING -output STRING [-alph DOUBLE] [-evalue DOUBLE]
 
 DESCRIPTION: An application for multiple global network alignment.
 
@@ -180,6 +180,8 @@ ALL MANDATORY AND OPTIONAL ARGUMENTS:
 -output A mandatory option. The path of an output file.
 
 -alph   alph for sequence and topology similarity， default=0.5
+
+-evalue	evalue used to pick the sequence similarity which has a lower e-value than evalue, default=1e-7
 
 
 ################################################################################
