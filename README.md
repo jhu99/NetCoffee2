@@ -6,9 +6,9 @@ PROGRAM:NetCoffee2
 
 AUTHOR:JIALU HU and JUNHAO HE
 
-EMAIL: jialu.hu@fu-berlin.de  hejunhao@mail.nwpu.edu.cn
+EMAIL: jhu@nwpu.edu.cn  junhao.he@nwpu-bioinformatics.com
 
-Copyright (C++) <2017>  <Junhao He>
+Copyright (C++) <2018>  <Junhao He>
 
 
 This program is free software: you can redistribute it and/or modify
@@ -167,7 +167,7 @@ ALL MANDATORY AND OPTIONAL ARGUMENTS:
 
 -help   Show help information.
 
--beta   beta used for the rate of conserved protein in a same network
+-beta   beta used for the rate of conserved protein in a same network, default=0
 
 -version        Show the current version.
 
@@ -179,7 +179,7 @@ ALL MANDATORY AND OPTIONAL ARGUMENTS:
 
 -output A mandatory option. The path of an output file.
 
--alph   alph for sequence and topology similarity
+-alph   alph for sequence and topology similarity， default=0.5
 
 
 ################################################################################
