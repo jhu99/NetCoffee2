@@ -165,11 +165,9 @@ ALL MANDATORY AND OPTIONAL ARGUMENTS:
 
 -alph	alph for sequence and topology similarity
 
-<<<<<<< HEAD
 -beta   beta used for the rate of conserved protein in a same network, default=0
-=======
+
 -output	A mandatory option. The path of an output file.
->>>>>>> origin/master
 
 -numnet	A mandatory option. The number of ppi networks
 
@@ -181,13 +179,11 @@ ALL MANDATORY AND OPTIONAL ARGUMENTS:
 
 -beta	beta used for the rate of conserved protein in a same network
 
-<<<<<<< HEAD
 -alph   alph for sequence and topology similarity， default=0.5
 
 -evalue	evalue used to pick the sequence similarity which has a lower e-value than evalue, default=1e-7
-=======
+
 -inputnet	A mandatory option. The path of an input file.
->>>>>>> origin/master
 
 
 ################################################################################
