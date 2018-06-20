@@ -161,7 +161,7 @@ VERSION: NetCoffee2 1.0.006
 
 ALL MANDATORY AND OPTIONAL ARGUMENTS:
 
--evalue	evalue used to pick the sequence similarity which has a lower e-value than evalue
+-evalue	evalue used to pick the sequence similarity which has a lower e-value than evalue, default=1e-7
 
 -alph	alph for sequence and topology similarity
 
@@ -180,8 +180,6 @@ ALL MANDATORY AND OPTIONAL ARGUMENTS:
 -beta	beta used for the rate of conserved protein in a same network
 
 -alph   alph for sequence and topology similarity， default=0.5
-
--evalue	evalue used to pick the sequence similarity which has a lower e-value than evalue, default=1e-7
 
 -inputnet	A mandatory option. The path of an input file.
 
